@@ -1,0 +1,21 @@
+# Django and REST Framework
+Django>=4.2,<5.0
+djangorestframework>=3.14
+
+# Database
+psycopg2-binary>=2.9
+
+# Data Processing
+pandas>=2.0
+openpyxl>=3.1
+
+# Background Tasks
+celery>=5.2
+redis>=4.5
+django-celery-results>=2.5
+
+# Date utilities
+python-dateutil>=2.8
+
+# Production server
+gunicorn>=21.0
