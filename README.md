@@ -9,6 +9,7 @@ A Django-based Credit Approval System API that manages customer loans, calculate
 - **Loan Eligibility Check**: Check if a customer qualifies for a loan
 - **Loan Processing**: Create and manage loans
 - **Background Data Ingestion**: Celery-based Excel data import
+- **API Documentation**: Interactive Swagger UI at `/docs` and ReDoc at `/redoc`
 
 ## 🛠️ Tech Stack
 
@@ -27,6 +28,8 @@ A Django-based Credit Approval System API that manages customer loans, calculate
 | `/create-loan` | POST | Create a new loan |
 | `/view-loan/<loan_id>` | GET | View loan details |
 | `/view-loans/<customer_id>` | GET | View all loans by customer |
+| `/docs` | GET | Interactive API Documentation (Swagger) |
+| `/redoc` | GET | Static API Documentation (ReDoc) |
 
 ## 🏃 Quick Start
 
