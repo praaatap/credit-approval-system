@@ -12,6 +12,8 @@ from django.conf import settings
 from decimal import Decimal
 import pandas as pd
 from datetime import datetime
+from django.db import connection
+from django.core.management.color import no_style
 
 
 @shared_task(bind=True, max_retries=3)
@@ -107,6 +109,13 @@ def ingest_customer_data(self, file_path=None):
     except Exception as e:
         self.retry(exc=e, countdown=60)
         return {'error': str(e)}
+    finally:
+        # Reset the primary key sequence after bulk import
+        from .models import Customer
+        sequence_sql = connection.ops.sequence_reset_sql(no_style(), [Customer])
+        with connection.cursor() as cursor:
+            for sql in sequence_sql:
+                cursor.execute(sql)
 
 
 @shared_task(bind=True, max_retries=3)
@@ -231,6 +240,13 @@ def ingest_loan_data(self, file_path=None):
     except Exception as e:
         self.retry(exc=e, countdown=60)
         return {'error': str(e)}
+    finally:
+        # Reset the primary key sequence after bulk import
+        from .models import Loan
+        sequence_sql = connection.ops.sequence_reset_sql(no_style(), [Loan])
+        with connection.cursor() as cursor:
+            for sql in sequence_sql:
+                cursor.execute(sql)
 
 
 @shared_task

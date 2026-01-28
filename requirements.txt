@@ -19,3 +19,6 @@ python-dateutil>=2.8
 
 # Production server
 gunicorn>=21.0
+
+# API Documentation
+drf-spectacular>=0.27.0

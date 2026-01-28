@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
+		"name": "Credit Approval System API",
+		"description": "Postman collection for testing the Credit Approval System Backend Assignment.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "Register Customer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"age\": 30,\n    \"monthly_income\": 50000,\n    \"phone_number\": 9876543210\n}"
+						},
+						"url": {
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "Register a new customer. Approved limit is automatically calculated as 36 * monthly_salary."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Loans",
+			"item": [
+				{
+					"name": "Check Eligibility",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customer_id\": 1,\n    \"loan_amount\": 100000,\n    \"interest_rate\": 10,\n    \"tenure\": 12\n}"
+						},
+						"url": {
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"check-eligibility"
+							]
+						},
+						"description": "Check if a customer is eligible for a loan based on credit score calculation."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Loan",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customer_id\": 1,\n    \"loan_amount\": 100000,\n    \"interest_rate\": 10,\n    \"tenure\": 12\n}"
+						},
+						"url": {
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"create-loan"
+							]
+						},
+						"description": "Create a new loan record. Performs eligibility check again before finalizing."
+					},
+					"response": []
+				},
+				{
+					"name": "View Loan Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"view-loan",
+								"1"
+							]
+						},
+						"description": "View details of a specific loan by ID."
+					},
+					"response": []
+				},
+				{
+					"name": "View Customer Loans",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"view-loans",
+								"1"
+							]
+						},
+						"description": "View all loans associated with a specific customer ID."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000"
+		}
+	]
+}

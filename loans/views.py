@@ -13,6 +13,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 from .models import Customer, Loan
 from .serializers import (
@@ -33,6 +34,13 @@ from .services import (
 )
 
 
+@extend_schema(
+    summary="Register a new customer",
+    description="Add a new customer to the database and automatically calculate their approved limit based on salary.",
+    request=CustomerRegistrationSerializer,
+    responses={201: CustomerRegistrationResponseSerializer},
+    tags=["Customers"]
+)
 @api_view(['POST'])
 def register_customer(request):
     """
@@ -69,6 +77,13 @@ def register_customer(request):
         )
 
 
+@extend_schema(
+    summary="Check loan eligibility",
+    description="Check if a customer is eligible for a loan based on their credit score and financial standing.",
+    request=CheckEligibilityRequestSerializer,
+    responses={200: CheckEligibilityResponseSerializer},
+    tags=["Loans"]
+)
 @api_view(['POST'])
 def check_eligibility(request):
     """
@@ -123,6 +138,13 @@ def check_eligibility(request):
         )
 
 
+@extend_schema(
+    summary="Process a new loan",
+    description="Create a new loan record if the customer meets the eligibility criteria.",
+    request=CreateLoanRequestSerializer,
+    responses={200: CreateLoanResponseSerializer},
+    tags=["Loans"]
+)
 @api_view(['POST'])
 def create_loan_view(request):
     """
@@ -177,6 +199,12 @@ def create_loan_view(request):
         )
 
 
+@extend_schema(
+    summary="View loan details",
+    description="Retrieve details of a specific loan by its ID, including customer information.",
+    responses={200: ViewLoanResponseSerializer},
+    tags=["Loans"]
+)
 @api_view(['GET'])
 def view_loan(request, loan_id):
     """
@@ -213,6 +241,12 @@ def view_loan(request, loan_id):
         )
 
 
+@extend_schema(
+    summary="View all loans for a customer",
+    description="Retrieve a list of all active loans associated with a specific customer ID.",
+    responses={200: ViewLoansItemSerializer(many=True)},
+    tags=["Loans"]
+)
 @api_view(['GET'])
 def view_loans_by_customer(request, customer_id):
     """

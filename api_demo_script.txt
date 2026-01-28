@@ -1,0 +1,67 @@
+INTERACTIVE API DEMO SCRIPT (FOR SWAGGER / OPENAPI)
+===================================================
+
+Use this data while recording your screen in the browser (http://localhost:8000/docs/).
+
+---
+
+SCENE 1: REGISTER A NEW CUSTOMER (The 'Start')
+[Action: Open POST /register, click 'Try it out']
+[Data to Paste]:
+{
+  "first_name": "Pratap",
+  "last_name": "Sisodiya",
+  "age": 25,
+  "monthly_income": 50000,
+  "phone_number": 9876543210
+}
+[Say]: "First, let's register a new customer. Notice the monthly income is 50,000. When I execute this..."
+[Action: Click 'Execute']
+[Say]: "The system automatically calculated an approved limit of 18 Lakhs (36 times the salary). Our customer ID is 301. We will use this ID for the next steps."
+
+---
+
+SCENE 2: CHECK LOAN ELIGIBILITY (The 'Brain')
+[Action: Open POST /check-eligibility, click 'Try it out']
+[Data to Paste]:
+{
+  "customer_id": 301,
+  "loan_amount": 100000,
+  "interest_rate": 8.5,
+  "tenure": 12
+}
+[Say]: "Now, let's check if this customer can get a 1 Lakh loan at 8.5% interest. This is where the risk engine runs."
+[Action: Click 'Execute']
+[Say]: "Look at the response. The system approved it, but it automatically corrected the interest rate from 8.5% to 12.0%. This is because the customer is new and falls into a specific risk tier. It also calculated the exact monthly EMI for us."
+
+---
+
+SCENE 3: CREATE THE LOAN (The 'Final Step')
+[Action: Open POST /create-loan, click 'Try it out']
+[Data to Paste]:
+{
+  "customer_id": 301,
+  "loan_amount": 100000,
+  "interest_rate": 12.0,
+  "tenure": 12
+}
+[Say]: "Now we officially create the loan using that corrected interest rate."
+[Action: Click 'Execute']
+[Say]: "The loan is now approved and saved in the database. We have a unique Loan ID (let's say it's 501)."
+
+---
+
+SCENE 4: VIEW CUSTOMER LOANS (The 'Verification')
+[Action: Open GET /view-loans/{customer_id}, click 'Try it out']
+[Data to put in {customer_id}]: 301
+[Say]: "Finally, let's verify all loans for our customer Pratap."
+[Action: Click 'Execute']
+[Say]: "Here is the list. It shows the 1 Lakh loan we just created, along with the interest rate and the number of repayments left. The system is fully integrated and consistent."
+
+---
+PRO TIP FOR VIDEO:
+If you want to show a REJECTION (very impressive for CTOs):
+Try to create another loan for the SAME customer with a huge amount:
+"loan_amount": 2000000 (20 Lakhs)
+The system will reject it because it's OVER their 18 Lakh limit!
+---

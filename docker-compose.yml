@@ -1,13 +1,9 @@
-version: "3.8"
-
 services:
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
-      - ../customer_data.xlsx:/app/customer_data.xlsx:ro
-      - ../loan_data.xlsx:/app/loan_data.xlsx:ro
     ports:
       - "8000:8000"
     depends_on:
@@ -53,8 +49,6 @@ services:
     command: celery -A config worker -l info
     volumes:
       - .:/app
-      - ../customer_data.xlsx:/app/customer_data.xlsx:ro
-      - ../loan_data.xlsx:/app/loan_data.xlsx:ro
     environment:
       - DEBUG=1
       - SECRET_KEY=django-insecure-dev-key-change-in-production

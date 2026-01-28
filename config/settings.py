@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     # Third party apps
     'rest_framework',
     'django_celery_results',
+    'drf_spectacular',
     # Local apps
     'loans',
 ]
@@ -120,6 +121,54 @@ REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+
+# OpenAPI / Swagger Documentation Settings
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Credit Approval System API',
+    'DESCRIPTION': '''
+## Credit Approval System - Backend API
+
+A comprehensive loan management and credit approval system that allows:
+- Customer registration with auto-calculated credit limits
+- Loan eligibility checking based on credit scores
+- Loan creation and management
+- Viewing loan details and history
+
+### Credit Score Calculation
+The credit score (0-100) is calculated based on:
+- Past loans paid on time
+- Number of loans taken
+- Loan activity in current year
+- Loan approved volume
+
+### Loan Approval Rules
+| Credit Score | Approval Condition |
+|--------------|-------------------|
+| > 50 | Approve at requested rate |
+| 30-50 | Approve only if interest rate > 12% |
+| 10-30 | Approve only if interest rate > 16% |
+| < 10 | Reject all loans |
+
+### Additional Rules
+- If sum of current loans > approved limit, credit score = 0
+- If total EMIs > 50% of monthly salary, loan is rejected
+- approved_limit = 36  monthly_salary (rounded to nearest lakh)
+    ''',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'persistAuthorization': True,
+        'displayOperationId': True,
+    },
+    'TAGS': [
+        {'name': 'Customers', 'description': 'Customer registration and management'},
+        {'name': 'Loans', 'description': 'Loan eligibility, creation and viewing'},
+    ],
 }
 
 
@@ -134,3 +183,4 @@ CELERY_TIMEZONE = 'UTC'
 
 # Data files path (in Docker, files are mounted to /app)
 DATA_FILES_PATH = BASE_DIR
+
